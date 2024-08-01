@@ -1,0 +1,24 @@
+{
+    "name": "ByeByeEXIF",
+    "description": "Remove metadata before uploading files!",
+    "version": "1.0",
+    "manifest_version": 3,
+    "icons": {
+        "128": "icon.png"
+    },
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    },
+    "action": {
+        "default_title": "ByeByeEXIF"
+    },
+    "content_scripts": [
+        {
+          "js": ["content.js"],
+          "matches": ["<all_urls>"]
+        }
+    ],
+    "permissions":["tabs","contextMenus"],
+    "host_permissions": ["<all_urls>"]
+}
