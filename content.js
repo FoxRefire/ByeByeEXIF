@@ -34,7 +34,8 @@ function getElements(){
     return window.fileSelectors
 }
 
-function openFileChooser(){
+async function openFileChooser(){
+    await unlockUserActivation()
     let input = document.createElement('input');
     input.type = "file"
     input.click()
@@ -46,6 +47,19 @@ function openFileChooser(){
                 data: b64.encode((await input.files[0].arrayBuffer()))
             })
         })
+    })
+}
+
+function unlockUserActivation(){
+    return new Promise(resolve => {
+        if(navigator.userActivation.isActive){
+            resolve()
+        } else {
+            alert("To unlock user activation, click anywhere in webpage")
+            setInterval(() => {
+                navigator.userActivation.isActive ? resolve() : null
+            }, 100)
+        }
     })
 }
 
