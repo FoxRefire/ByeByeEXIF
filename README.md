@@ -1,6 +1,8 @@
 # ByeByeEXIF
 Chrome/Firefox extension that removes metadata before upload files
 
+[![Firefox](https://extensionworkshop.com/assets/img/documentation/publish/get-the-addon-178x60px.dad84b42.png)](https://addons.mozilla.org/ja/firefox/addon/byebyeexif/)
+
 # Usage
 Open the website you wish to upload files to and click on the **extension icon** or **Cleanup file and upload** from the right-click menu.
 
