@@ -53,7 +53,7 @@ function uploadResult(file, index){
     let dataTransfer = new DataTransfer();
     dataTransfer.items.add(file);
     getElements()[index].files = dataTransfer.files
-    getElements()[index].dispatchEvent(new Event("change"))
+    getElements()[index].dispatchEvent(new Event("change", {bubbles: true, composed: true}))
 }
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     switch(request.type){
