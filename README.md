@@ -7,7 +7,7 @@
 
 [![Firefox](https://extensionworkshop.com/assets/img/documentation/publish/get-the-addon-178x60px.dad84b42.png)](https://addons.mozilla.org/ja/firefox/addon/byebyeexif/)
 
-# Usage
+## Usage
 Open the website you wish to upload files to and click on the **extension icon** or **Cleanup file and upload** from the right-click menu.
 
 Next, select a file from the dialog that appears automatically
@@ -16,6 +16,23 @@ Then this will automatically remove metadata from the selected files and upload 
 
 > [!CAUTION]
 > **Do not upload files directly to websites using default button, otherwise, metadata couldn't be deleted.**
+
+## Supported File Formats
+```
+<Images>
+.jpg, .jpeg, .png, .gif, .bmp
+
+<PDF Document>
+.pdf
+
+<Office Documents>
+.doc, .dot, .docx, .dotx, .docm, .dotm, .xls,
+.xlt, .xla, .xlsx, .xltx, .xlsm, .xltm, .xlam,
+.xlsb, .ppt, .pot, .pps, .ppa, .pptx, .potx,
+.ppsx, .ppam, .pptm, .potm, .ppsm, .mdb, .odt,
+.ods, .odp, .odg, .odc, .odf, .odi, .odm, .odb,
+.ott, .ots, .otp, .otg, .otc, .oti, .oth
+```
 
 ## Third-party libraries/Referenced codes
 * [Variety Flat Bordered Icons](https://www.svgrepo.com/svg/467701/eraser-3)([Public Domain](https://www.svgrepo.com/page/licensing/#PD)) //Extension Icon
