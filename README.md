@@ -1,5 +1,9 @@
-# ByeByeEXIF
-Chrome/Firefox extension that removes metadata before upload files
+<p align="center">
+  <img width="180" src="https://github.com/user-attachments/assets/784ea26f-571a-429b-a8f3-6e28272bfd1d">
+  <h1 align="center">ByeByeEXIF</h1>
+  <div align="center"> Chrome/Firefox extension that removes metadata before upload files</div>
+</p>
+
 
 [![Firefox](https://extensionworkshop.com/assets/img/documentation/publish/get-the-addon-178x60px.dad84b42.png)](https://addons.mozilla.org/ja/firefox/addon/byebyeexif/)
 
@@ -17,4 +21,5 @@ Then this will automatically remove metadata from the selected files and upload 
 * [Variety Flat Bordered Icons](https://www.svgrepo.com/svg/467701/eraser-3)([Public Domain](https://www.svgrepo.com/page/licensing/#PD)) //Extension Icon
 * [How To Set The Value Of A File Input](https://pqina.nl/blog/set-value-to-file-input/) //Algorithm of Hooking File Input
 * [Image Data Cleaner](https://github.com/codepo8/image-data-cleaner/blob/master/scripts/cleaner.js#L49)([MIT](https://github.com/codepo8/image-data-cleaner/blob/master/LICENSE.md)) //Algorithm of cleaning Image's metadata
-* [pdf-lib](https://github.com/Hopding/pdf-lib)([MIT](https://github.com/Hopding/pdf-lib/blob/master/LICENSE.md)) //Cleaning PDF
+* [pdf-lib](https://github.com/Hopding/pdf-lib)([MIT](https://github.com/Hopding/pdf-lib/blob/master/LICENSE.md)) //Handling PDF
+* [jszip](https://github.com/Stuk/jszip)([MIT or GPL v3](https://github.com/Stuk/jszip/blob/main/LICENSE.markdown)) //Handling Office documents
