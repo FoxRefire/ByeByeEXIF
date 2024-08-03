@@ -17,4 +17,4 @@ Then this will automatically remove metadata from the selected files and upload 
 * [Variety Flat Bordered Icons](https://www.svgrepo.com/svg/467701/eraser-3)([Public Domain](https://www.svgrepo.com/page/licensing/#PD)) //Extension Icon
 * [How To Set The Value Of A File Input](https://pqina.nl/blog/set-value-to-file-input/) //Algorithm of Hooking File Input
 * [Image Data Cleaner](https://github.com/codepo8/image-data-cleaner/blob/master/scripts/cleaner.js#L49)([MIT](https://github.com/codepo8/image-data-cleaner/blob/master/LICENSE.md)) //Algorithm of cleaning Image's metadata
-
+* [pdf-lib](https://github.com/Hopding/pdf-lib)([MIT](https://github.com/Hopding/pdf-lib/blob/master/LICENSE.md)) //Cleaning PDF
