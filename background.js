@@ -44,8 +44,10 @@ async function go(){
     }})
 }
 
-chrome.runtime.onInstalled.addListener(createMenu)
-chrome.runtime.onStartup.addListener(createMenu)
+if(chrome.contextMenus){
+    chrome.runtime.onInstalled.addListener(createMenu)
+    chrome.runtime.onStartup.addListener(createMenu)
 
-chrome.contextMenus.onClicked.addListener(go)
+    chrome.contextMenus.onClicked.addListener(go)
+}
 chrome.action.onClicked.addListener(go)
