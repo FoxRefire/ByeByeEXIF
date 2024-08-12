@@ -17,7 +17,7 @@ function setIndex(nl){
             return true
         }
     }
-    return -1
+    return false
 }
 
 function getElements(){
@@ -61,8 +61,8 @@ function uploadResult(file, index){
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     switch(request.type){
         case "Index":
-            setIndex(getElements())
-            sendResponse(true)
+            let bool = setIndex(getElements())
+            sendResponse(bool)
             break;
         case "Files":
             openFileChooser().then(files => sendResponse(files))
