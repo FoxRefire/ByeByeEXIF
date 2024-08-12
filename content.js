@@ -1,11 +1,4 @@
-const b64 = {
-    decode: s => Uint8Array.from(atob(s), c => c.charCodeAt(0)),
-    encode: b => btoa(Array.from(new Uint8Array(b)).map(e => String.fromCharCode(e)).join(""))
-};
-
-function dictToFile(dict){
-    return new File([b64.decode(dict.data)], dict.name, {type: dict.type})
-}
+import fileDict from './utils/fileDict.js'
 
 function setIndex(nl){
     if(nl.length == 1){
@@ -41,11 +34,7 @@ async function openFileChooser(){
     input.click()
     return new Promise(resolve => {
         input.addEventListener("change", async () => {
-            resolve({
-                name: input.files[0].name,
-                type: input.files[0].type,
-                data: b64.encode((await input.files[0].arrayBuffer()))
-            })
+            resolve(await fileDict.compose(input.files[0]))
         })
     })
 }
@@ -79,7 +68,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             openFileChooser().then(files => sendResponse(files))
             break;
         case "Result":
-            uploadResult(dictToFile(request.fileDict), window.fileIndex)
+            uploadResult(fileDict.restore(request.fileDict), window.fileIndex)
             sendResponse(true)
             break;
         case "Error":

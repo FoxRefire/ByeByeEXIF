@@ -1,4 +1,6 @@
 import { FFmpeg } from "/libs/ffmpeg/ffmpeg/dist/esm/index.js"
+import b64 from './base64.js'
+import fileDict from './fileDict.js'
 
 export default async function(file){
     if(chrome.offscreen){
@@ -30,15 +32,6 @@ async function run(file){
     return result.buffer
 }
 
-const b64 = {
-    decode: s => Uint8Array.from(atob(s), c => c.charCodeAt(0)),
-    encode: b => btoa(Array.from(new Uint8Array(b)).map(e => String.fromCharCode(e)).join(""))
-};
-
-function dictToFile(dict){
-    return new File([b64.decode(dict.data)], dict.name, {type: dict.type})
-}
-
 async function offscreenRun(file){
     await chrome.offscreen.createDocument({
         url: '/utils/offscreen.html',
@@ -47,11 +40,7 @@ async function offscreenRun(file){
     })
     let result = await chrome.runtime.sendMessage({
         type:"offscreenCleanVideos",
-        file: {
-            name: file.name,
-            type: file.type,
-            data: b64.encode((await file.arrayBuffer()))
-        }
+        fileDict: await fileDict.compose(file)
     })
     await chrome.offscreen.closeDocument()
     return b64.decode(result)
@@ -59,7 +48,7 @@ async function offscreenRun(file){
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if(!chrome.offscreen && request.type=="offscreenCleanVideos"){
-        let file = dictToFile(request.file)
+        let file = fileDict.restore(request.fileDict)
         run(file).then(ret => sendResponse(b64.encode(ret)))
     }
     return true

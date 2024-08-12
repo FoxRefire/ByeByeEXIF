@@ -13,12 +13,18 @@
     "action": {
         "default_title": "ByeByeEXIF"
     },
-    "content_scripts": [
-        {
-          "js": ["content.js"],
+    "content_scripts": [{
+          "js": ["content-loader.js"],
           "matches": ["<all_urls>"]
-        }
-    ],
+    }],
+    "web_accessible_resources": [{
+        "resources": [
+            "content.js",
+            "/utils/base64.js",
+            "/utils/fileDict.js"
+        ],
+        "matches": ["<all_urls>"]
+    }],
     "permissions":["tabs","contextMenus"],
     "host_permissions": ["<all_urls>"],
     "content_security_policy": {
