@@ -20,7 +20,11 @@ Then this will automatically remove metadata from the selected files and upload 
 ## Supported File Formats
 ```
 <Images>
-.jpg, .jpeg, .png, .gif, .bmp
+.jpg, .jpeg, .png, .gif, .bmp, .webp
+
+<Videos>
+.mp4, .webm, .ogv, .mpg, .mpeg, .m1v, .m4v,
+.avi, .mkv, .mov, .wmv
 
 <PDF Document>
 .pdf
@@ -40,3 +44,4 @@ Then this will automatically remove metadata from the selected files and upload 
 * [Image Data Cleaner](https://github.com/codepo8/image-data-cleaner/blob/master/scripts/cleaner.js#L49)([MIT](https://github.com/codepo8/image-data-cleaner/blob/master/LICENSE.md)) //Algorithm of cleaning Image's metadata
 * [pdf-lib](https://github.com/Hopding/pdf-lib)([MIT](https://github.com/Hopding/pdf-lib/blob/master/LICENSE.md)) //Handling PDF
 * [jszip](https://github.com/Stuk/jszip)([MIT or GPL v3](https://github.com/Stuk/jszip/blob/main/LICENSE.markdown)) //Handling Office documents
+* [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm)([MIT](https://github.com/ffmpegwasm/ffmpeg.wasm/blob/main/LICENSE)) //Handling Video Files
