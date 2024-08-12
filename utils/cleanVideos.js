@@ -53,6 +53,7 @@ async function offscreenRun(file){
             data: b64.encode((await file.arrayBuffer()))
         }
     })
+    await chrome.offscreen.closeDocument()
     return b64.decode(result)
 }
 
