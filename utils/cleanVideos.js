@@ -2,13 +2,13 @@ import { FFmpeg } from "/libs/ffmpeg/ffmpeg/dist/esm/index.js"
 
 export default async function(file){
     let ffmpeg = new FFmpeg();
+    let data = await file.arrayBuffer()
     await ffmpeg.load({
-        coreURL: "/ffmpeg/core/dist/esm/ffmpeg-core.js",
+        coreURL: "/libs/ffmpeg/core/dist/esm/ffmpeg-core.js",
     })
-    await ffmpeg.writeFile(file.name, await file.arrayBuffer());
+    await ffmpeg.writeFile(file.name, new Uint8Array(data));
     await ffmpeg.exec([
         '-i', file.name,
-        '-y',
         '-codec', 'copy',
         '-map_metadata', '-1',
         '-map_chapters', '-1',
@@ -16,8 +16,8 @@ export default async function(file){
         '-fflags', '+bitexact',
         '-flags:v', '+bitexact',
         '-flags:a', '+bitexact',
-        file.name
+        "cleaned"+file.name
     ]);
-    result = await ffmpeg.readFile(file.name);
+    let result = await ffmpeg.readFile("cleaned"+file.name);
     return result.buffer
 }
