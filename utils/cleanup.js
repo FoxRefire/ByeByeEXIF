@@ -8,10 +8,10 @@ export default function(file){
     return new Promise((resolve, reject) => {
         console.log(file)
         let utils = [
-            [cleanImages, [".jpg", ".jpeg", ".png", ".gif", ".bmp"]],
+            [cleanImages, [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"]],
             [cleanPdf, [".pdf"]],
             [cleanOffice, [".doc", ".dot", ".docx", ".dotx", ".docm", ".dotm", ".xls", ".xlt", ".xla", ".xlsx", ".xltx", ".xlsm", ".xltm", ".xlam", ".xlsb", ".ppt", ".pot", ".pps", ".ppa", ".pptx", ".potx", ".ppsx", ".ppam", ".pptm", ".potm", ".ppsm", ".mdb", ".odt", ".ods", ".odp", ".odg", ".odc", ".odf", ".odi", ".odm", ".odb", ".ott", ".ots", ".otp", ".otg", ".otc", ".oti", ".oth"]],
-            [cleanVideos, [".mp4"]]
+            [cleanVideos, [".mp4", ".webm", ".ogv", ".mpg", ".mpeg", ".m1v", ".m4v", ".avi", ".mkv", ".mov", ".wmv"]]
         ]
 
         for(let util of utils){
