@@ -39,7 +39,7 @@ async function offscreenRun(file){
         justification: 'To use ffmpeg.wasm in chromium'
     })
     let result = await chrome.runtime.sendMessage({
-        type:"offscreenCleanVideos",
+        type:"offscreenCleanByFFmpeg",
         fileDict: await fileDict.compose(file)
     })
     await chrome.offscreen.closeDocument()
@@ -47,7 +47,7 @@ async function offscreenRun(file){
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if(!chrome.offscreen && request.type=="offscreenCleanVideos"){
+    if(!chrome.offscreen && request.type=="offscreenCleanByFFmpeg"){
         let file = fileDict.restore(request.fileDict)
         run(file).then(ret => sendResponse(b64.encode(ret)))
     }

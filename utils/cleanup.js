@@ -2,7 +2,7 @@ import sendMessage from './sendMessage.js'
 import cleanImages from './cleanImages.js';
 import cleanPdf from './cleanPdf.js';
 import cleanOffice from './cleanOffice.js';
-import cleanVideos from './cleanVideos.js';
+import cleanByFFmpeg from './cleanByFFmpeg.js';
 
 export default function(file){
     return new Promise((resolve, reject) => {
@@ -11,7 +11,7 @@ export default function(file){
             [cleanImages, [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"]],
             [cleanPdf, [".pdf"]],
             [cleanOffice, [".doc", ".dot", ".docx", ".dotx", ".docm", ".dotm", ".xls", ".xlt", ".xla", ".xlsx", ".xltx", ".xlsm", ".xltm", ".xlam", ".xlsb", ".ppt", ".pot", ".pps", ".ppa", ".pptx", ".potx", ".ppsx", ".ppam", ".pptm", ".potm", ".ppsm", ".mdb", ".odt", ".ods", ".odp", ".odg", ".odc", ".odf", ".odi", ".odm", ".odb", ".ott", ".ots", ".otp", ".otg", ".otc", ".oti", ".oth"]],
-            [cleanVideos, [".mp4", ".webm", ".ogv", ".mpg", ".mpeg", ".m1v", ".m4v", ".avi", ".mkv", ".mov", ".wmv"]]
+            [cleanByFFmpeg, [".mp4", ".webm", ".ogv", ".mpg", ".mpeg", ".m1v", ".m4v", ".avi", ".mkv", ".mov", ".wmv"]]
         ]
 
         for(let util of utils){
