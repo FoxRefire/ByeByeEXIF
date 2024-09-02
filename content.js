@@ -31,10 +31,11 @@ async function openFileChooser(){
     await unlockUserActivation()
     let input = document.createElement('input');
     input.type = "file"
+    input.multiple = getElements()[window.fileIndex].multiple
     input.click()
     return new Promise(resolve => {
         input.addEventListener("change", async () => {
-            resolve(await fileDict.compose(input.files[0]))
+            resolve(await fileDict.multiCompose(input.files))
         })
     })
 }
@@ -52,10 +53,8 @@ function unlockUserActivation(){
     })
 }
 
-function uploadResult(file, index){
-    let dataTransfer = new DataTransfer();
-    dataTransfer.items.add(file);
-    getElements()[index].files = dataTransfer.files
+function uploadResult(fd, index){
+    getElements()[index].files = getElements()[window.fileIndex].multiple ? fileDict.multiRestore(fd) : fileDict.multiRestore([fd[0]])
     getElements()[index].dispatchEvent(new Event("change", {bubbles: true, composed: true}))
 }
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -68,7 +67,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             openFileChooser().then(files => sendResponse(files))
             break;
         case "Result":
-            uploadResult(fileDict.restore(request.fileDict), window.fileIndex)
+            uploadResult(request.fileDict, window.fileIndex)
             sendResponse(true)
             break;
         case "Error":

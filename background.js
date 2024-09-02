@@ -24,19 +24,22 @@ async function setIndex(id){
     throw res
 }
 
-async function queryFile(id){
+async function queryFiles(id){
     let res = await chrome.tabs.sendMessage(id, {type:"Files"})
-    return fileDict.restore(res)
+    return Object.values(fileDict.multiRestore(res))
 }
 
 async function go(id){
     await setIndex(id)
-    let file = await queryFile(id)
-    let cleanedData = await CleanUp(id, file)
+    let fileDicts = []
+    for(let file of await queryFiles(id)){
+        let cleanedData = await CleanUp(id, file)
+        fileDicts.push(await fileDict.compose(file, cleanedData))
+    }
 
     chrome.tabs.sendMessage(id, {
         type: "Result",
-        fileDict: await fileDict.compose(file, cleanedData)
+        fileDict: fileDicts
     })
 }
 
@@ -44,18 +47,20 @@ if(chrome.contextMenus){
     chrome.runtime.onInstalled.addListener(createMenu)
     chrome.runtime.onStartup.addListener(createMenu)
 
-    chrome.contextMenus.onClicked.addListener((info, tab) => {
+    chrome.contextMenus.onClicked.addListener(async (info, tab) => {
         switch(info.menuItemId){
             case "browse":
                 go(tab.id)
                 break
             case "dragUpload":
+                await setIndex(tab.id)
                 chrome.windows.create({
                     url: "dragUpload.html?id=" + tab.id,
                     type: "popup",
                     width: 710,
                     height: 570
                 });
+                break
         }
     })
 }

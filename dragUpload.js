@@ -5,20 +5,16 @@ document.body.addEventListener("dragover", event => event.preventDefault())
 document.body.addEventListener("drop", async event => {
     event.preventDefault()
     let id = Number((new URL(location.href)).searchParams.get("id"))
-    let file = event.dataTransfer.files[0]
-    let cleanedData = await CleanUp(id, file)
+    let fileDicts = []
+    for(let file of Object.values(event.dataTransfer.files)){
+        let cleanedData = await CleanUp(id, file)
+        fileDicts.push(await fileDict.compose(file, cleanedData))
+    }
 
-    await setIndex(id)
     await chrome.tabs.sendMessage(id, {
         type: "Result",
-        fileDict: await fileDict.compose(file, cleanedData)
+        fileDict: fileDicts
     })
 
     window.close()
 })
-
-async function setIndex(id){
-    let res = await chrome.tabs.sendMessage(id, {type:"Index"})
-    if(res) return res
-    throw res
-}
