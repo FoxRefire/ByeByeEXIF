@@ -43,7 +43,9 @@ Then this will automatically remove metadata from the selected files and upload 
 ```
 
 ## Demo
-[demo1](https://github.com/user-attachments/assets/3292feb6-656b-4597-93ed-8e22909dece1)
+[demo1](https://github.com/user-attachments/assets/439a8338-881f-4f26-b550-197957051d59)
+
+[demo2](https://github.com/user-attachments/assets/3292feb6-656b-4597-93ed-8e22909dece1)
 
 
 ## Third-party libraries/Referenced codes
