@@ -3,8 +3,18 @@ import fileDict from './utils/fileDict.js'
 
 function createMenu(){
     chrome.contextMenus.create({
-        id: "selectFile",
+        id: "parent",
         title: "Cleanup File and upload"
+    })
+    chrome.contextMenus.create({
+        id: "browse",
+        parentId: "parent",
+        title: "Browse"
+    })
+    chrome.contextMenus.create({
+        id: "dragUpload",
+        parentId: "parent",
+        title: "Upload by drag and drop"
     })
 }
 
@@ -34,6 +44,19 @@ if(chrome.contextMenus){
     chrome.runtime.onInstalled.addListener(createMenu)
     chrome.runtime.onStartup.addListener(createMenu)
 
-    chrome.contextMenus.onClicked.addListener((_, tab) => go(tab.id))
+    chrome.contextMenus.onClicked.addListener((info, tab) => {
+        switch(info.menuItemId){
+            case "browse":
+                go(tab.id)
+                break
+            case "dragUpload":
+                chrome.windows.create({
+                    url: "dragUpload.html?id=" + tab.id,
+                    type: "popup",
+                    width: 710,
+                    height: 570
+                });
+        }
+    })
 }
 chrome.action.onClicked.addListener(tab => go(tab.id))
