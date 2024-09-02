@@ -1,5 +1,4 @@
 import CleanUp from './utils/cleanup.js';
-import sendMessage from './utils/sendMessage.js'
 import fileDict from './utils/fileDict.js'
 
 function createMenu(){
@@ -9,33 +8,32 @@ function createMenu(){
     })
 }
 
-function setIndex(){
-    return new Promise((resolve, reject) => {
-        sendMessage({type:"Index"}).then(res => {
-            res ? resolve(res) : reject(res)
-        })
-    })
+async function setIndex(id){
+    let res = await chrome.tabs.sendMessage(id, {type:"Index"})
+    if(res) return res
+    throw res
 }
 
-function queryFile(){
-    return new Promise((resolve, reject) => {
-        sendMessage({type:"Files"}).then(res => {
-            resolve(fileDict.restore(res))
-        })
-    })
+async function queryFile(id){
+    let res = await chrome.tabs.sendMessage(id, {type:"Files"})
+    return fileDict.restore(res)
 }
 
-async function go(){
-    await setIndex()
-    let file = await queryFile()
-    let cleanedData = await CleanUp(file)
-    sendMessage({type: "Result", fileDict: await fileDict.compose(file, cleanedData)})
+async function go(id){
+    await setIndex(id)
+    let file = await queryFile(id)
+    let cleanedData = await CleanUp(id, file)
+
+    chrome.tabs.sendMessage(id, {
+        type: "Result",
+        fileDict: await fileDict.compose(file, cleanedData)
+    })
 }
 
 if(chrome.contextMenus){
     chrome.runtime.onInstalled.addListener(createMenu)
     chrome.runtime.onStartup.addListener(createMenu)
 
-    chrome.contextMenus.onClicked.addListener(go)
+    chrome.contextMenus.onClicked.addListener((_, tab) => go(tab.id))
 }
-chrome.action.onClicked.addListener(go)
+chrome.action.onClicked.addListener(tab => go(tab.id))

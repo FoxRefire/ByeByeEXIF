@@ -1,10 +1,9 @@
-import sendMessage from './sendMessage.js'
 import cleanImages from './cleanImages.js';
 import cleanPdf from './cleanPdf.js';
 import cleanOffice from './cleanOffice.js';
 import cleanByFFmpeg from './cleanByFFmpeg.js';
 
-export default function(file){
+export default function(id, file){
     return new Promise((resolve, reject) => {
         console.log(file)
         let utils = [
@@ -23,7 +22,7 @@ export default function(file){
             }
         }
 
-        sendMessage({type: "Error"})
+        chrome.tabs.sendMessage(id, {type: "Error"})
         reject()
     })
 }
