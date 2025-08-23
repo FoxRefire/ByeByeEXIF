@@ -1,5 +1,6 @@
 import CleanUp from './utils/cleanup.js';
 import fileDict from './utils/fileDict.js'
+import { ChunkSender } from './utils/chunkManager.js'
 
 document.body.addEventListener("dragover", event => event.preventDefault())
 document.body.addEventListener("drop", async event => {
@@ -11,10 +12,14 @@ document.body.addEventListener("drop", async event => {
         fileDicts.push(await fileDict.compose(file, cleanedData))
     }
 
-    await chrome.tabs.sendMessage(id, {
-        type: "Result",
-        fileDict: fileDicts
-    })
+    sendResult(id, fileDicts)
 
     window.close()
 })
+
+async function sendResult(id, fileDicts){
+    let key = crypto.randomUUID()
+    await chrome.tabs.sendMessage(id, {type: "Result", key})
+    let cs = new ChunkSender(key, fileDicts)
+    await cs.chunkTabSendMessage(id)
+}

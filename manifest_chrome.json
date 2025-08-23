@@ -21,7 +21,8 @@
         "resources": [
             "content.js",
             "/utils/base64.js",
-            "/utils/fileDict.js"
+            "/utils/fileDict.js",
+            "/utils/chunkManager.js"
         ],
         "matches": ["<all_urls>"]
     }],

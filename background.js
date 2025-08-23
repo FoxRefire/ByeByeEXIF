@@ -1,5 +1,6 @@
 import CleanUp from './utils/cleanup.js';
 import fileDict from './utils/fileDict.js'
+import { ChunkSender, ChunkReceiver } from './utils/chunkManager.js'
 
 function createMenu(){
     chrome.contextMenus.create({
@@ -25,8 +26,18 @@ async function setIndex(id){
 }
 
 async function queryFiles(id){
-    let res = await chrome.tabs.sendMessage(id, {type:"Files"})
-    return Object.values(fileDict.multiRestore(res))
+    let key = crypto.randomUUID()
+    let cr = new ChunkReceiver(key)
+    let res = cr.chunkRuntimeReceiveMessage()
+    await chrome.tabs.sendMessage(id, {type:"QueryFiles", key})
+    return Object.values(fileDict.multiRestore(await res))
+}
+
+async function sendResult(id, fileDicts){
+    let key = crypto.randomUUID()
+    await chrome.tabs.sendMessage(id, {type: "Result", key})
+    let cs = new ChunkSender(key, fileDicts)
+    await cs.chunkTabSendMessage(id)
 }
 
 async function go(id){
@@ -37,10 +48,7 @@ async function go(id){
         fileDicts.push(await fileDict.compose(file, cleanedData))
     }
 
-    chrome.tabs.sendMessage(id, {
-        type: "Result",
-        fileDict: fileDicts
-    })
+    sendResult(id, fileDicts)
 }
 
 if(chrome.contextMenus){

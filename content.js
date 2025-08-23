@@ -1,4 +1,5 @@
 import fileDict from './utils/fileDict.js'
+import { ChunkSender, ChunkReceiver } from './utils/chunkManager.js'
 
 function setIndex(nl){
     if(nl.length == 1){
@@ -54,7 +55,11 @@ function unlockUserActivation(){
 }
 
 function uploadResult(fd, index){
-    getElements()[index].files = getElements()[window.fileIndex].multiple ? fileDict.multiRestore(fd) : fileDict.multiRestore([fd[0]])
+    if(getElements()[window.fileIndex].multiple) {
+        getElements()[index].files = fileDict.filesToFileList(fileDict.multiRestore(fd))
+    } else {
+        getElements()[index].files = fileDict.filesToFileList(fileDict.multiRestore([fd[0]]))
+    }
     getElements()[index].dispatchEvent(new Event("change", {bubbles: true, composed: true}))
 }
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -63,11 +68,20 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             let bool = setIndex(getElements())
             sendResponse(bool)
             break;
-        case "Files":
-            openFileChooser().then(files => sendResponse(files))
+        case "QueryFiles":
+            openFileChooser().then(files => {
+                let cs = new ChunkSender(request.key, files)
+                console.log(cs)
+                cs.chunkRuntimeSendMessage()
+                sendResponse(true)
+            })
             break;
         case "Result":
-            uploadResult(request.fileDict, window.fileIndex)
+            let cr = new ChunkReceiver(request.key)
+            console.log(cr)
+            cr.chunkRuntimeReceiveMessage().then(fileDict => {
+                uploadResult(fileDict, window.fileIndex)
+            })
             sendResponse(true)
             break;
         case "Error":

@@ -19,11 +19,18 @@ export default {
         return fileDicts
     },
     multiRestore(dicts){
-        let dataTransfer = new DataTransfer();
+        let files = [];
         dicts.forEach(dict => {
             let file = this.restore(dict)
-            dataTransfer.items.add(file);
+            files.push(file)
         })
-        return dataTransfer.files
+        return files
+    },
+    filesToFileList(files) {
+        const dataTransfer = new DataTransfer();
+        for (const file of files) {
+          dataTransfer.items.add(file);
+        }
+        return dataTransfer.files;
     }
 }
